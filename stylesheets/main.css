@@ -2,6 +2,8 @@ body { background: #fafafa; color: #444; font-family: 'segoe ui'; margin: 0px; t
 
 h3 { text-align: center; }
 
+.info { text-align: center; font-size: .9em; }
+
 .largest { color: green !important; font-weight: 700; }
 
 strong { font-weight: bold; }

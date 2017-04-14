@@ -52,7 +52,7 @@ function parseJSON(data) {
     var profits = document.querySelectorAll(".hgprofit");
     for (var i = 0; i < profits.length; i++) {
         if (profits[i].innerHTML == format(largestVal)) {
-            console.log(profits[i].setAttribute("class", "hgprofit largest"));
+            profits[i].setAttribute("class", "hgprofit largest");
         }
     }
 
