@@ -97,6 +97,13 @@ module.exports = function(grunt) {
                 }]
             },
         },
+
+        'gh-pages': {
+            options: {
+                base: 'build'
+            },
+            src: ['**']
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-watch');
@@ -104,9 +111,12 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-sass');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-http-server');
+    grunt.loadNpmTasks('grunt-http-server');
+    grunt.loadNpmTasks('grunt-gh-pages');
 
     grunt.registerTask('default', ['buildAll', 'http-server', 'watch']);
 
     grunt.registerTask('buildcss', ['sass']);
     grunt.registerTask('buildAll', ['buildcss', 'copy']);
+    grunt.registerTask('publish', ['gh-pages']);
 };
