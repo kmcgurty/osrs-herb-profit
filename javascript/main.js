@@ -7,13 +7,26 @@ var relevantIDs = {
 };
 
 var url = "https://rsbuddy.com/exchange/summary.json";
-var yql = 'http://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent("select * from html where url='") + url + "'&format=json";
+var full = 'http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + "&callback=?";
 
-$.getJSON(yql, function(data) {
-    parseJSON(JSON.parse(data.query.results.body));
+var errorTimeout = setTimeout(alertTimeout, 10000);
+
+$.getJSON(full, function(data) {
+    clearTimeout(errorTimeout);
+    parseJSON(data.contents);
 }).error(function(data) {
-    alert("There was an error accessing the OSBuddy GE values");
+    alertTimeout();
+}).always(function(data) {
+    hideLoading();
 });
+
+function alertTimeout() {
+    alert("There was an error accessing the OSBuddy GE values. If you are using an extension to block external requests, please allow \"whateverorigin.com\" as it is needed to keep this project free.");
+}
+
+function hideLoading() {
+    document.querySelector("#spinner").style.display = "none";
+}
 
 function parseJSON(data) {
     var table = document.querySelector("#data");
