@@ -7,13 +7,13 @@ var relevantIDs = {
 };
 
 var url = "https://rsbuddy.com/exchange/summary.json";
-var full = 'http://www.whateverorigin.org/get?url=' + encodeURIComponent(url) + "&callback=?";
+var full = 'https://allorigins.me/get?url=' + encodeURIComponent(url) + "&callback=?";
 
 var errorTimeout = setTimeout(alertTimeout, 10000);
 
 $.getJSON(full, function(data) {
     clearTimeout(errorTimeout);
-    parseJSON(data.contents);
+    parseJSON(JSON.parse(data.contents));
 }).error(function(data) {
     alertTimeout();
 }).always(function(data) {
@@ -21,7 +21,7 @@ $.getJSON(full, function(data) {
 });
 
 function alertTimeout() {
-    alert("There was an error accessing the OSBuddy GE values. If you are using an extension to block external requests, please allow \"whateverorigin.com\" as it is needed to keep this project free.");
+    alert("There was an error accessing the OSBuddy GE values. If you are using an extension to block external requests, please allow \"allorigins.me\" as it is needed to keep this project free.");
 }
 
 function hideLoading() {
