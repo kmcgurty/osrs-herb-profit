@@ -41,10 +41,8 @@ function parseJSON(data) {
 
         var sAvg = data[sID].buy_average;
         var hgAvg = data[hgID].sell_average;
-        var hcAvg = data[hcID].sell_average;
 
-        var hgNetProfit = (data[hgID].sell_average * averageYield);
-        var hcNetProfit = (data[hcID].sell_average * averageYield);
+        var hgNetProfit = (data[hgID].sell_average * averageYield) - sAvg;
 
         if (hgNetProfit > largestVal) {
             largestVal = hgNetProfit;
@@ -56,7 +54,6 @@ function parseJSON(data) {
             "<td class='savg'>" + format(sAvg) + "</td>" +
             "<td class='hgavg'>" + format(hgAvg) + "</td>" +
             "<td class='hgprofit'>" + format(hgNetProfit) + "</td>" +
-            "<td class='hcprofit'>" + format(hcNetProfit) + "</td>" +
             "</tr>";
 
         table.querySelector("tbody").innerHTML += row;
