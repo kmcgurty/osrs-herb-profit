@@ -7,7 +7,7 @@ var relevantIDs = {
 };
 
 var url = "https://rsbuddy.com/exchange/summary.json";
-var full = 'https://allorigins.me/get?url=' + encodeURIComponent(url) + "&callback=?";
+var full = 'https://allorigins.win/get?url=' + encodeURIComponent(url) + "&callback=?";
 
 var errorTimeout = setTimeout(alertTimeout, 10000);
 
