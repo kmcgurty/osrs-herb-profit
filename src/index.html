@@ -2,28 +2,31 @@
 <html>
 
     <head>
-        <link rel="stylesheet" href="stylesheets/main.css">
+        <link rel="shortcut icon" type="image/x-icon" href="misc/images/sword.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="misc/images/sword.ico" />
+        <link rel="stylesheet" href="stylesheets/main.css" />
         <script type="text/javascript" src="javascript/lib/jquery-1.12.3.min.js"></script>
         <script type="text/javascript" src="javascript/main.js"></script>
         <script type="text/javascript" src="javascript/lib/tablesort.min.js"></script>
         <script type="text/javascript" src="javascript/lib/tablesort.number.js"></script>
+        <title>OSRS Herb Farming Price Guide</title>
     </head>
 
-    <body>
+    <body class="dark">
         <h3>OSRS Herb Farming Price Guide</h3>
         <table id="data">
             <thead>
                 <th>Herb</th>
                 <th data-sort-method="number">Seed Buy Price</th>
                 <th data-sort-method="number">Grimy Herb Sell Price</th>
-                <th data-sort-default data-sort-method="number">Profit/Loss per patch</th>
+                <th data-sort-method="number">Profit/Loss per patch</th>
             </thead>
             <tbody>
             </tbody>
         </table>
-        <img id="spinner" src="images/spinner.gif">
+        <img id="spinner" src="misc/images/spinner.gif">
         <div class="info">
-            Assumes 6 herbs average. Prices are gathered from the OSBuddy Grand Exchange. Click the headings to sort.
+            Assumes <input id="avgherbs" value="8.5" type="number" step="0.5" min="1" max="10" onkeydown="return false;"></input> herbs average. Use a lower number if not using Magic Secateurs & Ultra Compost.<br>Prices are gathered from the Runelite GE API. Click the headings to sort.<br>Contact <a href="https://www.reddit.com/user/kmcgurty1">/u/kmcgurty1</a> for assistance.
         </div>
     </body>
 

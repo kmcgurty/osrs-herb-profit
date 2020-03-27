@@ -1,74 +1,117 @@
-var averageYield = 6;
-var relevantIDs = {
-    "count": 14,
+let averageYield = 8.5;
+//IDs.count starts from 0
+let IDs = {
     "seeds": [5291, 5292, 5293, 5294, 5295, 5296, 5297, 5298, 5299, 5300, 5301, 5302, 5303, 5304],
-    "herbs_clean": [249, 251, 253, 255, 257, 2998, 259, 261, 263, 3000, 265, 2481, 267, 269],
-    "herbs_grimy": [199, 201, 203, 205, 207, 3049, 209, 211, 213, 3051, 215, 2485, 217, 219]
+    "clean": [249, 251, 253, 255, 257, 2998, 259, 261, 263, 3000, 265, 2481, 267, 269],
+    "grimy": [199, 201, 203, 205, 207, 3049, 209, 211, 213, 3051, 215, 2485, 217, 219]
 };
 
-var url = "https://rsbuddy.com/exchange/summary.json";
-var full = 'https://allorigins.win/get?url=' + encodeURIComponent(url) + "&callback=?";
+let prices = {};
 
-var errorTimeout = setTimeout(alertTimeout, 10000);
+let errorTimeout = setTimeout(alertTimeout, 10000);
 
-$.getJSON(full, function(data) {
-    clearTimeout(errorTimeout);
-    parseJSON(JSON.parse(data.contents));
-}).error(function(data) {
-    alertTimeout();
-}).always(function(data) {
-    hideLoading();
-});
+fetchData(createTable);
+
+function fetchData(callback) {
+    let now = Date.now();
+    console.log(now);
+
+    prices = { time: null, "seeds": [], "clean": [], "grimy": [] };
+
+    let completed = 0;
+    let total = 0;
+
+    Object.keys(IDs).forEach((which) => {
+        total += IDs[which].length;
+
+        for (let i = 0; i < IDs[which].length; i++) {
+            $.getJSON(getURL(IDs[which][i]), function(data) {
+                clearTimeout(errorTimeout);
+
+                prices[which].push(data);
+
+                completed++;
+
+                if (completed == total) {
+                    hideLoading();
+                    callback(prices);
+                }
+            }).error(function(data) {
+                alertTimeout();
+            });
+        }
+    })
+}
 
 function alertTimeout() {
-    alert("There was an error accessing the OSBuddy GE values. If you are using an extension to block external requests, please allow \"allorigins.me\" as it is needed to keep this project free.");
+    //alert("There was an error accessing the OSBuddy GE values. If you are using an extension to block external requests, please allow \"allorigins.me\" as it is needed to keep this project free.");
 }
 
 function hideLoading() {
     document.querySelector("#spinner").style.display = "none";
 }
 
-function parseJSON(data) {
-    var table = document.querySelector("#data");
-    var largestVal = 0;
+function createTable(prices) {
+    let table = document.querySelector("#data");
+    let largestVal = 0;
 
-    for (i = 0; i < relevantIDs.count; i++) {
-        var sID = relevantIDs.seeds[i];
-        var hcID = relevantIDs.herbs_clean[i];
-        var hgID = relevantIDs.herbs_grimy[i];
+    //i was tired and couldn't figure out a better way to do this. sorry
+    for (let i = 0; i < IDs.seeds.length; i++) {
+        cName = prices.getValue("clean", IDs.clean[i]).name;
+        sAvg = prices.getValue("seeds", IDs.seeds[i]).price;
+        gAvg = prices.getValue("grimy", IDs.grimy[i]).price;
+        grossValue = Math.trunc((gAvg * averageYield) - sAvg);
 
-        var hcName = data[hcID].name;
-
-        var sAvg = data[sID].buy_average;
-        var hgAvg = data[hgID].sell_average;
-
-        var hgNetProfit = (data[hgID].sell_average * averageYield) - sAvg;
-
-        if (hgNetProfit > largestVal) {
-            largestVal = hgNetProfit;
+        if (grossValue > largestVal) {
+            largestVal = grossValue;
         }
 
-        var row =
-            "<tr>" +
-            "<td  class='hcname'><b>" + hcName + "</b></td>" +
-            "<td class='savg'>" + format(sAvg) + "</td>" +
-            "<td class='hgavg'>" + format(hgAvg) + "</td>" +
-            "<td class='hgprofit'>" + format(hgNetProfit) + "</td>" +
-            "</tr>";
+        grossValue < 0 ? color = "red" : color = "green";
+
+        let row =
+            `<tr class='row' data-value='${ grossValue }'>
+                <td class='hcname'><b>${cName.toLocaleString()}</b></td>
+                <td class='savg'>${sAvg.toLocaleString()}</td>
+                <td class='gavg'>${gAvg.toLocaleString()}</td>
+                <td class='total ${ color }'>${grossValue.toLocaleString()}</td>
+            </tr>`;
 
         table.querySelector("tbody").innerHTML += row;
-    }
+    };
 
-    var profits = document.querySelectorAll(".hgprofit");
-    for (var i = 0; i < profits.length; i++) {
-        if (profits[i].innerHTML == format(largestVal)) {
-            profits[i].setAttribute("class", "hgprofit largest");
-        }
-    }
+    document.querySelector(`.row[data-value='${largestVal}']`).className = "row highest";
 
     new Tablesort(table);
 }
 
+function findIndex(array, id) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].id == id) return i;
+    }
+}
+
 function format(number) {
     return number.toLocaleString();
+}
+
+function getURL(itemID) {
+    return `https://api.runelite.net/runelite-1.6.10/item/${itemID}/price`;
+    //runelite API actually lets you grab the data directly. allorigins is legacy
+    //return `https://api.allorigins.win/get?url=${encodeURIComponent(request)}&callback=?`
+}
+
+Object.prototype.getValue = function(which, id) {
+    for (let i = 0; i < this[which].length; i++) {
+        if (this[which][i].id == id) return this[which][i]
+    }
+    return undefined;
+}
+
+window.onload = function() {
+    document.querySelector("#avgherbs").addEventListener("input", e => {
+        averageYield = e.target.value;
+
+        document.querySelector("tbody").innerHTML = "";
+        createTable(prices);
+    });
 }
