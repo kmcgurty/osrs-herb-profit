@@ -1,5 +1,5 @@
 let averageYield = 8.5;
-//IDs.count starts from 0
+
 let IDs = {
     "seeds": [5291, 5292, 5293, 5294, 5295, 5296, 5297, 5298, 5299, 5300, 5301, 5302, 5303, 5304],
     "clean": [249, 251, 253, 255, 257, 2998, 259, 261, 263, 3000, 265, 2481, 267, 269],
@@ -82,16 +82,6 @@ function createTable(prices) {
     document.querySelector(`.row[data-value='${largestVal}']`).className = "row highest";
 
     new Tablesort(table);
-}
-
-function findIndex(array, id) {
-    for (let i = 0; i < array.length; i++) {
-        if (array[i].id == id) return i;
-    }
-}
-
-function format(number) {
-    return number.toLocaleString();
 }
 
 function getURL(itemID) {
