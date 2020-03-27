@@ -13,10 +13,7 @@ let errorTimeout = setTimeout(alertTimeout, 10000);
 fetchData(createTable);
 
 function fetchData(callback) {
-    let now = Date.now();
-    console.log(now);
-
-    prices = { time: null, "seeds": [], "clean": [], "grimy": [] };
+    prices = { "seeds": [], "clean": [], "grimy": [] };
 
     let completed = 0;
     let total = 0;
@@ -26,13 +23,12 @@ function fetchData(callback) {
 
         for (let i = 0; i < IDs[which].length; i++) {
             $.getJSON(getURL(IDs[which][i]), function(data) {
-                clearTimeout(errorTimeout);
-
                 prices[which].push(data);
 
                 completed++;
 
                 if (completed == total) {
+                    clearTimeout(errorTimeout);
                     hideLoading();
                     callback(prices);
                 }
@@ -44,7 +40,7 @@ function fetchData(callback) {
 }
 
 function alertTimeout() {
-    //alert("There was an error accessing the OSBuddy GE values. If you are using an extension to block external requests, please allow \"allorigins.me\" as it is needed to keep this project free.");
+    alert("There was an error accessing the Runelite GE values. If you are using an extension to block external requests, please allow \"api.runelite.com\".\n\nIf you keep receiving this error, please contact my developer.");
 }
 
 function hideLoading() {
