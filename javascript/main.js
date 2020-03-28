@@ -1,5 +1,5 @@
 let averageYield = 8.5;
-//IDs.count starts from 0
+
 let IDs = {
     "seeds": [5291, 5292, 5293, 5294, 5295, 5296, 5297, 5298, 5299, 5300, 5301, 5302, 5303, 5304],
     "clean": [249, 251, 253, 255, 257, 2998, 259, 261, 263, 3000, 265, 2481, 267, 269],
@@ -13,10 +13,7 @@ let errorTimeout = setTimeout(alertTimeout, 10000);
 fetchData(createTable);
 
 function fetchData(callback) {
-    let now = Date.now();
-    console.log(now);
-
-    prices = { time: null, "seeds": [], "clean": [], "grimy": [] };
+    prices = { "seeds": [], "clean": [], "grimy": [] };
 
     let completed = 0;
     let total = 0;
@@ -26,13 +23,12 @@ function fetchData(callback) {
 
         for (let i = 0; i < IDs[which].length; i++) {
             $.getJSON(getURL(IDs[which][i]), function(data) {
-                clearTimeout(errorTimeout);
-
                 prices[which].push(data);
 
                 completed++;
 
                 if (completed == total) {
+                    clearTimeout(errorTimeout);
                     hideLoading();
                     callback(prices);
                 }
@@ -44,7 +40,7 @@ function fetchData(callback) {
 }
 
 function alertTimeout() {
-    //alert("There was an error accessing the OSBuddy GE values. If you are using an extension to block external requests, please allow \"allorigins.me\" as it is needed to keep this project free.");
+    alert("There was an error accessing the Runelite GE values. If you are using an extension to block external requests, please allow \"api.runelite.com\".\n\nIf you keep receiving this error, please contact my developer.");
 }
 
 function hideLoading() {
@@ -82,16 +78,6 @@ function createTable(prices) {
     document.querySelector(`.row[data-value='${largestVal}']`).className = "row highest";
 
     new Tablesort(table);
-}
-
-function findIndex(array, id) {
-    for (let i = 0; i < array.length; i++) {
-        if (array[i].id == id) return i;
-    }
-}
-
-function format(number) {
-    return number.toLocaleString();
 }
 
 function getURL(itemID) {
