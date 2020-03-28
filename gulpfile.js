@@ -73,7 +73,7 @@ gulp.task('build-html', function(e) {
     var build = 'build';
 
     return gulp.src(src)
-        .pipe(htmlclean())
+        //.pipe(htmlclean())
         .pipe(gulp.dest(build));
 });
 
