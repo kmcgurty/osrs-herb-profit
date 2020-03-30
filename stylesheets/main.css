@@ -13,8 +13,15 @@ h3 {
   margin-right: auto;
   width: 50px; }
 
-#avgherbs {
-  width: 40px; }
+.settings {
+  width: 38px; }
+
+#data th {
+  text-align: center; }
+
+.settings,
+.settings::-webkit-inner-spin-button {
+  cursor: pointer; }
 
 .info {
   text-align: center;
@@ -26,13 +33,16 @@ h3 {
 .total.red {
   background-color: #ffa6a6; }
 
-#avgherbs,
-#avgherbs::-webkit-inner-spin-button {
-  cursor: pointer; }
-
-.highest td {
+.highest {
   background-color: #6bff7a !important;
   font-weight: 700; }
+
+.help:hover {
+  color: black;
+  text-decoration: underline; }
+
+.help {
+  cursor: help; }
 
 th[role=columnheader]:not(.no-sort) {
   cursor: pointer; }
