@@ -8,6 +8,9 @@ var sass = require('gulp-sass');
 var server = require('gulp-server-livereload');
 var livereload = require('gulp-livereload');
 //var postcss = require('gulp-postcss');
+var ghPages = require('gulp-gh-pages');
+
+gulp.task('deploy', () => gulp.src('./build/**/*').pipe(ghPages()));
 
 gulp.task('watch', function() {
     // livereload.listen({

@@ -1,5 +1,5 @@
 let averageYield = 8.5;
-
+let numPatches = 5;
 let IDs = {
     "seeds": [5291, 5292, 5293, 5294, 5295, 5296, 5297, 5298, 5299, 5300, 5301, 5302, 5303, 5304],
     "clean": [249, 251, 253, 255, 257, 2998, 259, 261, 263, 3000, 265, 2481, 267, 269],
@@ -49,33 +49,42 @@ function hideLoading() {
 
 function createTable(prices) {
     let table = document.querySelector("#data");
-    let largestVal = 0;
+    let largestNoDeath = 0;
+    let largestDeath = 0;
 
     //i was tired and couldn't figure out a better way to do this. sorry
     for (let i = 0; i < IDs.seeds.length; i++) {
         cName = prices.getValue("clean", IDs.clean[i]).name;
         sAvg = prices.getValue("seeds", IDs.seeds[i]).price;
-        gAvg = prices.getValue("grimy", IDs.grimy[i]).price;
-        grossValue = Math.trunc((gAvg * averageYield) - sAvg);
+        grimyAvg = prices.getValue("grimy", IDs.grimy[i]).price;
+        grossNoDeath = Math.trunc(((grimyAvg * averageYield) - sAvg) * numPatches);
+        grossDeath = Math.trunc(grossNoDeath - sAvg);
 
-        if (grossValue > largestVal) {
-            largestVal = grossValue;
+        if (grossNoDeath > largestNoDeath) {
+            largestNoDeath = grossNoDeath;
         }
 
-        grossValue < 0 ? color = "red" : color = "green";
+        if (grossDeath > largestDeath) {
+            largestDeath = grossDeath;
+        }
+
+        grossNoDeath < 0 ? color = "red" : color = "green";
+        grossDeath < 0 ? deathColor = "red" : deathColor = "green";
 
         let row =
-            `<tr class='row' data-value='${ grossValue }'>
+            `<tr class='row'>
                 <td class='hcname'><b>${cName.toLocaleString()}</b></td>
                 <td class='savg'>${sAvg.toLocaleString()}</td>
-                <td class='gavg'>${gAvg.toLocaleString()}</td>
-                <td class='total ${ color }'>${grossValue.toLocaleString()}</td>
+                <td class='gavg'>${grimyAvg.toLocaleString()}</td>
+                <td class='total ${ color }' data-value='${ grossNoDeath }'>${grossNoDeath.toLocaleString()}</td>
+                <td class='total ${ deathColor }' data-value='${ grossDeath }'>${grossDeath.toLocaleString()}</td>
             </tr>`;
 
         table.querySelector("tbody").innerHTML += row;
     };
 
-    document.querySelector(`.row[data-value='${largestVal}']`).className = "row highest";
+    document.querySelector(`.total[data-value='${largestNoDeath}']`).className += " highest";
+    document.querySelector(`.total[data-value='${largestDeath}']`).className += " highest";
 
     new Tablesort(table);
 }
@@ -96,6 +105,13 @@ Object.prototype.getValue = function(which, id) {
 window.onload = function() {
     document.querySelector("#avgherbs").addEventListener("input", e => {
         averageYield = e.target.value;
+
+        document.querySelector("tbody").innerHTML = "";
+        createTable(prices);
+    });
+
+    document.querySelector("#numpatches").addEventListener("input", e => {
+        numPatches = e.target.value;
 
         document.querySelector("tbody").innerHTML = "";
         createTable(prices);
