@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <link rel="shortcut icon" type="image/x-icon" href="misc/images/sword.ico" />
+        <link rel="stylesheet" href="stylesheets/balloon.css" />
+        <link rel="stylesheet" href="stylesheets/main.css" />
+        <script type="text/javascript" src="javascript/lib/jquery-1.12.3.min.js"></script>
+        <script type="text/javascript" src="javascript/main.js"></script>
+        <script type="text/javascript" src="javascript/lib/tablesort.min.js"></script>
+        <script type="text/javascript" src="javascript/lib/tablesort.number.js"></script>
+        <title>OSRS Herb Farming Price Guide</title>
+    </head>
+
+    <body class="dark">
+        <h3>OSRS Herb Farming Price Guide</h3>
+        <table id="data">
+            <thead>
+                <th style="width: 70px;">Herb</th>
+                <th data-sort-method="number">Seed Buy Price</th>
+                <th data-sort-method="number">Grimy Herb Sell Price</th>
+                <th data-sort-method="number" style="width: 120px;">Profit/Loss assuming no seed deaths <span class="help" aria-label="This column assumes 0 seeds die and you are using 5 herb patches. This is best if you have spells to keep your seeds alive. Use the other column if you are a lower level or do not have access to these methods." data-balloon-pos="down" data-balloon-length="large">(?)</span></th>
+                <th data-sort-method="number" style="width: 120px;">Profit/Loss assuming 1 seed death <span class="help" aria-label="This column assumes 1 seed dies, and are using 5 herb patches. This will give you a better idea of what herbs to farm if you do not have access to spells that stop your herbs from dying. If you are unsure, use this column as a guide." data-balloon-pos="down" data-balloon-length="large">(?)</span></th>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <img id="spinner" src="misc/images/spinner.gif">
+        <div class="info">
+            Assumes an average of <input id="avgherbs" class="settings" value="8.5" type="number" step="0.5" min="1" max="10" onkeydown="return false;"></input> herbs per patch, and <input id="numpatches" class="settings" value="5" type="number" step="1" min="3" max="10" onkeydown="return false;"></input> patches total.<br>Your average per patch will change depending on compost type, level, secateurs, and other variables.<br>Prices are gathered from the Runelite GE API. Click the headings to sort, hover over (?) for more info.<br>Contact <a href="https://www.reddit.com/user/kmcgurty1">/u/kmcgurty1</a> for assistance.
+        </div>
+    </body>
+
+</html>

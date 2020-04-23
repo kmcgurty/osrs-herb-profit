@@ -90,7 +90,7 @@ function createTable(prices) {
 }
 
 function getURL(itemID) {
-    return `https://api.runelite.net/runelite-1.6.11.1/item/${itemID}/price`;
+    return `https://api.runelite.net/runelite-1.6.10/item/${itemID}/price`;
     //runelite API actually lets you grab the data directly. allorigins is legacy
     //return `https://api.allorigins.win/get?url=${encodeURIComponent(request)}&callback=?`
 }
